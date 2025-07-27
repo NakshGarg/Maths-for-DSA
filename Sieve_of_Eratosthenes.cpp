@@ -3,35 +3,36 @@
 // But checking each number individually? That's slow.
 // Sieve comes in and says: "Bro, let's think smarter."
 
+// The Sieve of Eratosthenes is an ancient algorithm used to find all prime numbers 
+// up to a specified integer. It works by iteratively marking the multiples 
+// of each prime number as composite (not prime), starting from 2. 
+// The remaining unmarked numbers are the prime numbers within the specified range.
+
 #include <iostream>
-#include <vector>
 using namespace std;
-
-void sieve(int n) {
-    vector<bool> isPrime(n + 1, true);  // Initially assume all numbers are prime
-    isPrime[0] = isPrime[1] = false;    // 0 and 1 are not prime
-
-    for (int i = 2; i * i <= n; ++i) {
-        if (isPrime[i]) {
-            // Mark all multiples of i as non-prime
-            for (int j = i * i; j <= n; j += i)
-                isPrime[j] = false;
-        }
-    }
-
-    // Print all primes
-    cout << "Prime numbers up to " << n << " are: ";
-    for (int i = 2; i <= n; ++i) {
-        if (isPrime[i])
-            cout << i << " ";
-    }
-    cout << endl;
-}
 
 int main() {
     int n;
-    cout << "Enter the value of n: ";
     cin >> n;
-    sieve(n);
+    bool prime[1000] = {true}; // assuming n <= 1000
+
+    for (int i = 2; i <= n; i++) {
+        prime[i] = true;
+    }
+
+    for (int i = 2; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                prime[j] = false;
+            }
+        }
+    }
+
+    for (int i = 2; i <= n; i++) {
+        if (prime[i]) {
+            cout << i << " ";
+        }
+    }
+
     return 0;
 }
